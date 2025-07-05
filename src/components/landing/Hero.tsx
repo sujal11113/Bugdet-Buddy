@@ -4,6 +4,13 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, BookOpen, Smartphone, Brain, BarChart3 } from 'lucide-react';
 
 const Hero = () => {
+  const scrollToFeatures = () => {
+    const featuresSection = document.getElementById('features');
+    if (featuresSection) {
+      featuresSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-purple-50 via-pink-50 to-violet-100 py-20 sm:py-32">
       {/* Background decoration */}
@@ -12,38 +19,43 @@ const Hero = () => {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
-          <div className="space-y-8 text-center lg:text-left">
-            <div className="space-y-4">
-              <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 px-4 py-2 rounded-full text-sm font-medium">
+          <div className="space-y-8 text-center lg:text-center">
+            <div className="space-y-4 text-center">
+              <div className="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 px-4 py-2 rounded-full text-sm font-medium">
                 <Brain className="h-4 w-4" />
                 <span>AI-Powered Finance Tracking</span>
               </div>
               
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight text-center lg:text-left">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight text-center">
                 Smarter Spending
                 <span className="block bg-gradient-to-r from-purple-600 via-pink-600 to-violet-600 bg-clip-text text-transparent">Starts Here</span>
               </h1>
               
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto lg:mx-0 text-center lg:text-left">
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto text-center">
                 Automatically track, categorize, and analyze your expenses — all in one place. 
                 Take control of your finances with intelligent insights and effortless expense management.
               </p>
             </div>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-4 text-lg group shadow-lg">
                 Get Started Free
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <Button size="lg" variant="outline" className="px-8 py-4 text-lg group border-purple-300 hover:border-purple-600 hover:text-purple-600 hover:bg-purple-50">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="px-8 py-4 text-lg group border-purple-300 hover:border-purple-600 hover:text-purple-600 hover:bg-purple-50"
+                onClick={scrollToFeatures}
+              >
                 <BookOpen className="mr-2 h-5 w-5" />
                 Learn More
               </Button>
             </div>
 
             {/* Trust indicators */}
-            <div className="flex items-center justify-center lg:justify-start space-x-6 text-sm text-gray-500">
+            <div className="flex items-center justify-center space-x-6 text-sm text-gray-500">
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full"></div>
                 <span>Bank-level security</span>
