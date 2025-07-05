@@ -62,7 +62,8 @@ const Testimonials = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-            Loved by Thousands of Users
+            Loved by Thousands 
+            <span className="block bg-gradient-to-r from-purple-600 via-pink-600 to-violet-600 bg-clip-text text-transparent">of Users</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Don't just take our word for it. See what our users say about transforming their financial management with ExpenseTracker.
@@ -72,7 +73,7 @@ const Testimonials = () => {
         {/* Testimonials Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <Card key={index} className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-white to-purple-50/30">
               <CardContent className="p-6">
                 {/* Rating */}
                 <div className="flex items-center space-x-1 mb-4">
@@ -88,9 +89,9 @@ const Testimonials = () => {
 
                 {/* User Info */}
                 <div className="flex items-center space-x-3">
-                  <Avatar className="h-10 w-10">
+                  <Avatar className="h-10 w-10 ring-2 ring-purple-100">
                     <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
-                    <AvatarFallback className="bg-blue-100 text-blue-600 font-medium">
+                    <AvatarFallback className="bg-gradient-to-r from-purple-100 to-pink-100 text-purple-600 font-medium">
                       {testimonial.initials}
                     </AvatarFallback>
                   </Avatar>
@@ -108,15 +109,15 @@ const Testimonials = () => {
         <div className="mt-16 text-center">
           <div className="flex items-center justify-center space-x-8 text-gray-400">
             <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <div className="w-2 h-2 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full"></div>
               <span className="text-sm">4.9/5 Average Rating</span>
             </div>
             <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <div className="w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full"></div>
               <span className="text-sm">50,000+ Active Users</span>
             </div>
             <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <div className="w-2 h-2 bg-gradient-to-r from-violet-400 to-purple-500 rounded-full"></div>
               <span className="text-sm">99.9% Uptime</span>
             </div>
           </div>

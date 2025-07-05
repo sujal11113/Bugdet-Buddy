@@ -44,12 +44,13 @@ const FAQ = () => {
   ];
 
   return (
-    <section id="faq" className="py-20 bg-gray-50">
+    <section id="faq" className="py-20 bg-gradient-to-br from-purple-50 via-pink-50/50 to-violet-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-            Frequently Asked Questions
+            Frequently Asked 
+            <span className="block bg-gradient-to-r from-purple-600 via-pink-600 to-violet-600 bg-clip-text text-transparent">Questions</span>
           </h2>
           <p className="text-xl text-gray-600">
             Everything you need to know about ExpenseTracker
@@ -62,9 +63,9 @@ const FAQ = () => {
             <AccordionItem 
               key={index} 
               value={`item-${index}`}
-              className="bg-white rounded-lg shadow-sm border-0 px-6"
+              className="bg-white/80 backdrop-blur-sm rounded-lg shadow-sm border border-purple-100 px-6"
             >
-              <AccordionTrigger className="text-left font-semibold hover:no-underline py-6">
+              <AccordionTrigger className="text-left font-semibold hover:no-underline py-6 hover:text-purple-600">
                 {faq.question}
               </AccordionTrigger>
               <AccordionContent className="text-gray-600 pb-6 leading-relaxed">
@@ -82,21 +83,21 @@ const FAQ = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
               href="mailto:support@expensetracker.com" 
-              className="text-blue-600 hover:text-blue-700 font-medium"
+              className="text-purple-600 hover:text-purple-700 font-medium transition-colors"
             >
               Contact Support
             </a>
             <span className="text-gray-400 hidden sm:inline">•</span>
             <a 
               href="#" 
-              className="text-blue-600 hover:text-blue-700 font-medium"
+              className="text-purple-600 hover:text-purple-700 font-medium transition-colors"
             >
               Schedule a Demo
             </a>
             <span className="text-gray-400 hidden sm:inline">•</span>
             <a 
               href="#" 
-              className="text-blue-600 hover:text-blue-700 font-medium"
+              className="text-purple-600 hover:text-purple-700 font-medium transition-colors"
             >
               Help Center
             </a>

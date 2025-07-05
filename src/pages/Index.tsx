@@ -30,26 +30,28 @@ import Footer from '@/components/landing/Footer';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-violet-100">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-md border-b border-gray-200 z-50">
+      <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-md border-b border-purple-200 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
-              <DollarSign className="h-8 w-8 text-blue-600" />
-              <span className="text-xl font-bold text-gray-900">ExpenseTracker</span>
+              <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
+                <DollarSign className="h-5 w-5 text-white" />
+              </div>
+              <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">ExpenseTracker</span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-gray-600 hover:text-blue-600 transition-colors">Features</a>
-              <a href="#analytics" className="text-gray-600 hover:text-blue-600 transition-colors">Analytics</a>
-              <a href="#testimonials" className="text-gray-600 hover:text-blue-600 transition-colors">Reviews</a>
-              <a href="#faq" className="text-gray-600 hover:text-blue-600 transition-colors">FAQ</a>
+              <a href="#features" className="text-gray-600 hover:text-purple-600 transition-colors">Features</a>
+              <a href="#analytics" className="text-gray-600 hover:text-purple-600 transition-colors">Analytics</a>
+              <a href="#testimonials" className="text-gray-600 hover:text-purple-600 transition-colors">Reviews</a>
+              <a href="#faq" className="text-gray-600 hover:text-purple-600 transition-colors">FAQ</a>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" className="text-gray-600 hover:text-blue-600">
+              <Button variant="ghost" className="text-gray-600 hover:text-purple-600">
                 Log In
               </Button>
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+              <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
                 Get Started
               </Button>
             </div>
