@@ -1,12 +1,73 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { 
+  Smartphone, 
+  Brain, 
+  Camera, 
+  BarChart3, 
+  PieChart, 
+  TrendingUp, 
+  DollarSign,
+  Clock,
+  Shield,
+  Star,
+  CheckCircle,
+  ArrowRight,
+  Zap,
+  Eye,
+  Target
+} from 'lucide-react';
+import Hero from '@/components/landing/Hero';
+import Features from '@/components/landing/Features';
+import Analytics from '@/components/landing/Analytics';
+import ValueProposition from '@/components/landing/ValueProposition';
+import Testimonials from '@/components/landing/Testimonials';
+import FAQ from '@/components/landing/FAQ';
+import Footer from '@/components/landing/Footer';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-md border-b border-gray-200 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-2">
+              <DollarSign className="h-8 w-8 text-blue-600" />
+              <span className="text-xl font-bold text-gray-900">ExpenseTracker</span>
+            </div>
+            <div className="hidden md:flex items-center space-x-8">
+              <a href="#features" className="text-gray-600 hover:text-blue-600 transition-colors">Features</a>
+              <a href="#analytics" className="text-gray-600 hover:text-blue-600 transition-colors">Analytics</a>
+              <a href="#testimonials" className="text-gray-600 hover:text-blue-600 transition-colors">Reviews</a>
+              <a href="#faq" className="text-gray-600 hover:text-blue-600 transition-colors">FAQ</a>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Button variant="ghost" className="text-gray-600 hover:text-blue-600">
+                Log In
+              </Button>
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                Get Started
+              </Button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Main Content */}
+      <main className="pt-16">
+        <Hero />
+        <Features />
+        <Analytics />
+        <ValueProposition />
+        <Testimonials />
+        <FAQ />
+      </main>
+
+      <Footer />
     </div>
   );
 };
