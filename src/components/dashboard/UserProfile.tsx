@@ -8,6 +8,9 @@ import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { Database } from '@/integrations/supabase/types';
+
+type GenderType = Database['public']['Enums']['gender_type'];
 
 interface UserProfileProps {
   onClose: () => void;
@@ -19,7 +22,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ onClose }) => {
     email: '',
     phone: '',
     age: '',
-    gender: '',
+    gender: '' as GenderType | '',
     income: ''
   });
   const [loading, setLoading] = useState(false);
@@ -172,7 +175,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ onClose }) => {
           <Label>Gender</Label>
           <Select 
             value={profile.gender} 
-            onValueChange={(value) => setProfile({ ...profile, gender: value })}
+            onValueChange={(value: GenderType) => setProfile({ ...profile, gender: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select gender" />

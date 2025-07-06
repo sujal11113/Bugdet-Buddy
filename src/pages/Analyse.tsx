@@ -52,22 +52,24 @@ const Analyse = () => {
   };
 
   const getCategoryData = () => {
-    const categoryTotals = {};
+    const categoryTotals: { [key: string]: number } = {};
     expenses.forEach((expense: any) => {
       if (!categoryFilter || expense.category === categoryFilter) {
         categoryTotals[expense.category] = (categoryTotals[expense.category] || 0) + parseFloat(expense.amount);
       }
     });
 
+    const totalAmount = Object.values(categoryTotals).reduce((a, b) => a + b, 0);
+
     return Object.keys(categoryTotals).map(category => ({
       name: category,
       value: categoryTotals[category],
-      percentage: (categoryTotals[category] / Object.values(categoryTotals).reduce((a: any, b: any) => a + b, 0) * 100).toFixed(1)
+      percentage: totalAmount > 0 ? (categoryTotals[category] / totalAmount * 100).toFixed(1) : '0'
     }));
   };
 
   const getMonthlyTrends = () => {
-    const monthlyData = {};
+    const monthlyData: { [key: string]: number } = {};
     expenses.forEach((expense: any) => {
       const date = new Date(expense.date);
       const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
@@ -84,7 +86,7 @@ const Analyse = () => {
   };
 
   const getDailyTrends = () => {
-    const dailyData = {};
+    const dailyData: { [key: string]: number } = {};
     const last30Days = new Date();
     last30Days.setDate(last30Days.getDate() - 30);
 
@@ -255,7 +257,7 @@ const Analyse = () => {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(value) => [`$${value.toFixed(2)}`, 'Amount']} />
+                  <Tooltip formatter={(value: number) => [`$${value.toFixed(2)}`, 'Amount']} />
                 </PieChart>
               </ResponsiveContainer>
             ) : (
@@ -279,7 +281,7 @@ const Analyse = () => {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis />
-                  <Tooltip formatter={(value) => [`$${value.toFixed(2)}`, 'Amount']} />
+                  <Tooltip formatter={(value: number) => [`$${value.toFixed(2)}`, 'Amount']} />
                   <Bar dataKey="amount" fill="#3B82F6" />
                 </BarChart>
               </ResponsiveContainer>
@@ -304,7 +306,7 @@ const Analyse = () => {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="date" />
                   <YAxis />
-                  <Tooltip formatter={(value) => [`$${value.toFixed(2)}`, 'Amount']} />
+                  <Tooltip formatter={(value: number) => [`$${value.toFixed(2)}`, 'Amount']} />
                   <Line type="monotone" dataKey="amount" stroke="#6366F1" strokeWidth={2} />
                 </LineChart>
               </ResponsiveContainer>

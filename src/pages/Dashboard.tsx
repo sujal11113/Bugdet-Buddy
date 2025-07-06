@@ -194,7 +194,7 @@ const Dashboard = () => {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(value) => [`$${value.toFixed(2)}`, 'Amount']} />
+                  <Tooltip formatter={(value: number) => [`$${value.toFixed(2)}`, 'Amount']} />
                 </PieChart>
               </ResponsiveContainer>
             ) : (

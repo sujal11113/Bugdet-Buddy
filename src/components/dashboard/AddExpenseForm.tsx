@@ -8,6 +8,9 @@ import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { Database } from '@/integrations/supabase/types';
+
+type ExpenseCategory = Database['public']['Enums']['expense_category'];
 
 interface AddExpenseFormProps {
   onClose: () => void;
@@ -16,14 +19,14 @@ interface AddExpenseFormProps {
 const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
   const [expenseName, setExpenseName] = useState('');
   const [amount, setAmount] = useState('');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState<ExpenseCategory>('Other');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [loading, setLoading] = useState(false);
 
   const { user } = useAuth();
   const { toast } = useToast();
 
-  const categories = [
+  const categories: ExpenseCategory[] = [
     'Food', 'Travel', 'Utilities', 'Entertainment', 
     'Healthcare', 'Shopping', 'Education', 'Other'
   ];
@@ -41,7 +44,7 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
           user_id: user.id,
           expense_name: expenseName,
           amount: parseFloat(amount),
-          category,
+          category: category,
           date
         });
 
@@ -101,7 +104,7 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
 
         <div className="space-y-2">
           <Label>Category</Label>
-          <Select value={category} onValueChange={setCategory} required>
+          <Select value={category} onValueChange={(value: ExpenseCategory) => setCategory(value)} required>
             <SelectTrigger>
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
