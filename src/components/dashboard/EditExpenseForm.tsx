@@ -11,18 +11,20 @@ import { supabase } from '@/integrations/supabase/client';
 import { Database } from '@/integrations/supabase/types';
 import ReceiptUpload from './ReceiptUpload';
 
+type Expense = Database['public']['Tables']['expenses']['Row'];
 type ExpenseCategory = Database['public']['Enums']['expense_category'];
 
-interface AddExpenseFormProps {
+interface EditExpenseFormProps {
+  expense: Expense;
   onClose: () => void;
 }
 
-const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
-  const [expenseName, setExpenseName] = useState('');
-  const [amount, setAmount] = useState('');
-  const [category, setCategory] = useState<ExpenseCategory>('Other');
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
-  const [attachment, setAttachment] = useState<string>('');
+const EditExpenseForm: React.FC<EditExpenseFormProps> = ({ expense, onClose }) => {
+  const [expenseName, setExpenseName] = useState(expense.expense_name);
+  const [amount, setAmount] = useState(expense.amount.toString());
+  const [category, setCategory] = useState<ExpenseCategory>(expense.category);
+  const [date, setDate] = useState(expense.date);
+  const [attachment, setAttachment] = useState<string>(expense.attachment || '');
   const [loading, setLoading] = useState(false);
 
   const { user } = useAuth();
@@ -42,14 +44,14 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
     try {
       const { error } = await supabase
         .from('expenses')
-        .insert({
-          user_id: user.id,
+        .update({
           expense_name: expenseName,
           amount: parseFloat(amount),
           category: category,
           date,
           attachment: attachment || null
-        });
+        })
+        .eq('id', expense.id);
 
       if (error) {
         toast({
@@ -60,7 +62,7 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
       } else {
         toast({
           title: "Success",
-          description: "Expense added successfully!",
+          description: "Expense updated successfully!",
         });
         onClose();
       }
@@ -78,7 +80,7 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
   return (
     <>
       <DialogHeader>
-        <DialogTitle className="text-center">Add New Expense</DialogTitle>
+        <DialogTitle className="text-center">Edit Expense</DialogTitle>
       </DialogHeader>
       <form onSubmit={handleSubmit} className="space-y-4 text-center">
         <div className="space-y-2">
@@ -136,12 +138,18 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
         </div>
 
         <div className="space-y-2">
-          <Label className="block text-center">Receipt (Optional)</Label>
+          <Label className="block text-center">Receipt</Label>
           <div className="flex justify-center">
-            <ReceiptUpload onUploadComplete={(url) => setAttachment(url)} />
+            <ReceiptUpload 
+              onUploadComplete={(url) => setAttachment(url)}
+              expenseId={expense.id}
+            />
           </div>
           {attachment && (
-            <p className="text-sm text-green-600 text-center">Receipt uploaded!</p>
+            <div className="text-center">
+              <p className="text-sm text-green-600">Receipt attached</p>
+              <img src={attachment} alt="Receipt" className="max-w-32 h-auto mx-auto mt-2 rounded" />
+            </div>
           )}
         </div>
 
@@ -151,7 +159,7 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
             className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
             disabled={loading}
           >
-            {loading ? 'Adding...' : 'Add Expense'}
+            {loading ? 'Updating...' : 'Update Expense'}
           </Button>
           <Button type="button" variant="outline" onClick={onClose} className="flex-1">
             Cancel
@@ -162,4 +170,4 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
   );
 };
 
-export default AddExpenseForm;
+export default EditExpenseForm;

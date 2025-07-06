@@ -1,27 +1,38 @@
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/integrations/supabase/client';
-import { Edit, Trash2, Search, Filter } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { Database } from '@/integrations/supabase/types';
+import { Edit, Trash2, Eye, Search, Filter, Plus, Receipt } from 'lucide-react';
+import AddExpenseForm from '@/components/dashboard/AddExpenseForm';
+import EditExpenseForm from '@/components/dashboard/EditExpenseForm';
+
+type Expense = Database['public']['Tables']['expenses']['Row'];
+type ExpenseCategory = Database['public']['Enums']['expense_category'];
 
 const Spends = () => {
-  const { user } = useAuth();
-  const { toast } = useToast();
-  const [expenses, setExpenses] = useState([]);
-  const [filteredExpenses, setFilteredExpenses] = useState([]);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [filteredExpenses, setFilteredExpenses] = useState<Expense[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const [filterCategory, setFilterCategory] = useState<string>('all');
+  const [sortBy, setSortBy] = useState<string>('date');
+  const [showAddExpense, setShowAddExpense] = useState(false);
+  const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
+  const [viewingReceipt, setViewingReceipt] = useState<string | null>(null);
 
-  const categories = [
+  const { user } = useAuth();
+  const { toast } = useToast();
+
+  const categories: ExpenseCategory[] = [
     'Food', 'Travel', 'Utilities', 'Entertainment', 
     'Healthcare', 'Shopping', 'Education', 'Other'
   ];
@@ -29,12 +40,33 @@ const Spends = () => {
   useEffect(() => {
     if (user) {
       fetchExpenses();
+      
+      // Set up real-time subscription
+      const channel = supabase
+        .channel('expenses-changes')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'expenses',
+            filter: `user_id=eq.${user.id}`
+          },
+          () => {
+            fetchExpenses();
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
     }
   }, [user]);
 
   useEffect(() => {
-    filterExpenses();
-  }, [expenses, searchTerm, categoryFilter]);
+    filterAndSortExpenses();
+  }, [expenses, searchTerm, filterCategory, sortBy]);
 
   const fetchExpenses = async () => {
     if (!user) return;
@@ -44,18 +76,11 @@ const Spends = () => {
         .from('expenses')
         .select('*')
         .eq('user_id', user.id)
-        .order('date', { ascending: false });
+        .order('created_at', { ascending: false });
 
-      if (error) {
-        toast({
-          title: "Error",
-          description: error.message,
-          variant: "destructive"
-        });
-      } else {
-        setExpenses(data || []);
-      }
-    } catch (error) {
+      if (error) throw error;
+      setExpenses(data || []);
+    } catch (error: any) {
       toast({
         title: "Error",
         description: "Failed to fetch expenses",
@@ -66,21 +91,28 @@ const Spends = () => {
     }
   };
 
-  const filterExpenses = () => {
-    let filtered = expenses;
+  const filterAndSortExpenses = () => {
+    let filtered = expenses.filter(expense => {
+      const matchesSearch = expense.expense_name.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory = filterCategory === 'all' || expense.category === filterCategory;
+      return matchesSearch && matchesCategory;
+    });
 
-    if (searchTerm) {
-      filtered = filtered.filter((expense: any) =>
-        expense.expense_name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    if (categoryFilter) {
-      filtered = filtered.filter((expense: any) => expense.category === categoryFilter);
-    }
+    // Sort expenses
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'amount':
+          return Number(b.amount) - Number(a.amount);
+        case 'name':
+          return a.expense_name.localeCompare(b.expense_name);
+        case 'category':
+          return a.category.localeCompare(b.category);
+        default: // date
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+      }
+    });
 
     setFilteredExpenses(filtered);
-    setCurrentPage(1);
   };
 
   const deleteExpense = async (id: string) => {
@@ -90,167 +122,216 @@ const Spends = () => {
         .delete()
         .eq('id', id);
 
-      if (error) {
-        toast({
-          title: "Error",
-          description: error.message,
-          variant: "destructive"
-        });
-      } else {
-        toast({
-          title: "Success",
-          description: "Expense deleted successfully",
-        });
-        fetchExpenses();
-      }
-    } catch (error) {
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Expense deleted successfully",
+      });
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Failed to delete expense",
+        description: error.message,
         variant: "destructive"
       });
     }
   };
 
-  const totalPages = Math.ceil(filteredExpenses.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedExpenses = filteredExpenses.slice(startIndex, startIndex + itemsPerPage);
+  const totalAmount = filteredExpenses.reduce((sum, expense) => sum + Number(expense.amount), 0);
 
   if (loading) {
     return (
-      <div className="space-y-6">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
-          <div className="h-64 bg-gray-200 rounded"></div>
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-          All Expenses
-        </h1>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6 text-center">
+      <div className="max-w-7xl mx-auto space-y-6">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-4">
+            Expense Management
+          </h1>
+          <p className="text-gray-600 text-lg">
+            Track, manage, and analyze all your expenses in one place
+          </p>
+        </div>
 
-      {/* Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Filter className="h-5 w-5" />
-            Filters
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                <Input
-                  placeholder="Search expenses..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+        {/* Summary Card */}
+        <Card className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl">Total Expenses</CardTitle>
+            <CardDescription className="text-blue-100">
+              {filteredExpenses.length} expenses found
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="text-center">
+            <div className="text-4xl font-bold">${totalAmount.toFixed(2)}</div>
+          </CardContent>
+        </Card>
+
+        {/* Controls */}
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-center">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+            <Input
+              placeholder="Search expenses..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10 w-64"
+            />
+          </div>
+
+          <Select value={filterCategory} onValueChange={setFilterCategory}>
+            <SelectTrigger className="w-48">
+              <Filter className="h-4 w-4 mr-2" />
+              <SelectValue placeholder="Filter by category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Categories</SelectItem>
+              {categories.map((category) => (
+                <SelectItem key={category} value={category}>
+                  {category}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={sortBy} onValueChange={setSortBy}>
+            <SelectTrigger className="w-48">
+              <SelectValue placeholder="Sort by" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="date">Date</SelectItem>
+              <SelectItem value="amount">Amount</SelectItem>
+              <SelectItem value="name">Name</SelectItem>
+              <SelectItem value="category">Category</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Dialog open={showAddExpense} onOpenChange={setShowAddExpense}>
+            <DialogTrigger asChild>
+              <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+                <Plus className="h-4 w-4 mr-2" />
+                Add Expense
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <AddExpenseForm onClose={() => setShowAddExpense(false)} />
+            </DialogContent>
+          </Dialog>
+        </div>
+
+        {/* Expenses Table */}
+        <Card>
+          <CardHeader className="text-center">
+            <CardTitle>Your Expenses</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {filteredExpenses.length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-gray-500 mb-4">No expenses found</p>
+                <Button 
+                  onClick={() => setShowAddExpense(true)}
+                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Your First Expense
+                </Button>
+              </div>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="text-center">Name</TableHead>
+                    <TableHead className="text-center">Amount</TableHead>
+                    <TableHead className="text-center">Category</TableHead>
+                    <TableHead className="text-center">Date</TableHead>
+                    <TableHead className="text-center">Receipt</TableHead>
+                    <TableHead className="text-center">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredExpenses.map((expense) => (
+                    <TableRow key={expense.id}>
+                      <TableCell className="text-center font-medium">{expense.expense_name}</TableCell>
+                      <TableCell className="text-center">${Number(expense.amount).toFixed(2)}</TableCell>
+                      <TableCell className="text-center">
+                        <Badge variant="secondary">{expense.category}</Badge>
+                      </TableCell>
+                      <TableCell className="text-center">{new Date(expense.date).toLocaleDateString()}</TableCell>
+                      <TableCell className="text-center">
+                        {expense.attachment ? (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setViewingReceipt(expense.attachment)}
+                          >
+                            <Receipt className="h-4 w-4" />
+                          </Button>
+                        ) : (
+                          <span className="text-gray-400">No receipt</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <div className="flex justify-center space-x-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setEditingExpense(expense)}
+                          >
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => deleteExpense(expense.id)}
+                            className="text-red-600 hover:text-red-700"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Edit Expense Dialog */}
+        {editingExpense && (
+          <Dialog open={!!editingExpense} onOpenChange={() => setEditingExpense(null)}>
+            <DialogContent>
+              <EditExpenseForm 
+                expense={editingExpense}
+                onClose={() => setEditingExpense(null)}
+              />
+            </DialogContent>
+          </Dialog>
+        )}
+
+        {/* Receipt Viewer Dialog */}
+        {viewingReceipt && (
+          <Dialog open={!!viewingReceipt} onOpenChange={() => setViewingReceipt(null)}>
+            <DialogContent className="max-w-2xl">
+              <DialogHeader>
+                <DialogTitle className="text-center">Receipt</DialogTitle>
+              </DialogHeader>
+              <div className="text-center">
+                <img 
+                  src={viewingReceipt} 
+                  alt="Receipt" 
+                  className="max-w-full h-auto mx-auto rounded-lg"
                 />
               </div>
-            </div>
-            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="All categories" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="">All categories</SelectItem>
-                {categories.map((category) => (
-                  <SelectItem key={category} value={category}>
-                    {category}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Expenses Table */}
-      <Card>
-        <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Amount</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {paginatedExpenses.length > 0 ? (
-                paginatedExpenses.map((expense: any) => (
-                  <TableRow key={expense.id}>
-                    <TableCell className="font-medium">{expense.expense_name}</TableCell>
-                    <TableCell>
-                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        {expense.category}
-                      </span>
-                    </TableCell>
-                    <TableCell className="font-semibold text-green-600">
-                      ${parseFloat(expense.amount).toFixed(2)}
-                    </TableCell>
-                    <TableCell>{new Date(expense.date).toLocaleDateString()}</TableCell>
-                    <TableCell>
-                      <div className="flex gap-2">
-                        <Button variant="outline" size="sm">
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          onClick={() => deleteExpense(expense.id)}
-                          className="text-red-600 hover:text-red-700"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center py-8 text-gray-500">
-                    No expenses found
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex justify-center items-center space-x-2">
-          <Button
-            variant="outline"
-            onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-            disabled={currentPage === 1}
-          >
-            Previous
-          </Button>
-          <span className="text-sm text-gray-600">
-            Page {currentPage} of {totalPages}
-          </span>
-          <Button
-            variant="outline"
-            onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-            disabled={currentPage === totalPages}
-          >
-            Next
-          </Button>
-        </div>
-      )}
+            </DialogContent>
+          </Dialog>
+        )}
+      </div>
     </div>
   );
 };

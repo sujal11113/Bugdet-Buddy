@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { useAuth } from '@/contexts/AuthContext';
-import { DollarSign, Plus, Upload, User, LogOut } from 'lucide-react';
+import { DollarSign, Plus, User, LogOut } from 'lucide-react';
 import AddExpenseForm from './AddExpenseForm';
 import UserProfile from './UserProfile';
+import ReceiptUpload from './ReceiptUpload';
 
 const DashboardNavbar = () => {
   const { signOut } = useAuth();
@@ -37,10 +38,7 @@ const DashboardNavbar = () => {
             </DialogContent>
           </Dialog>
 
-          <Button variant="outline" className="border-blue-300 hover:bg-blue-50">
-            <Upload className="h-4 w-4 mr-2" />
-            Upload Receipt
-          </Button>
+          <ReceiptUpload />
 
           <Dialog open={showProfile} onOpenChange={setShowProfile}>
             <DialogTrigger asChild>
