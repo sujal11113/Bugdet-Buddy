@@ -9,7 +9,72 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      expenses: {
+        Row: {
+          amount: number
+          attachment: string | null
+          category: Database["public"]["Enums"]["expense_category"]
+          created_at: string
+          date: string
+          expense_name: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          attachment?: string | null
+          category?: Database["public"]["Enums"]["expense_category"]
+          created_at?: string
+          date?: string
+          expense_name: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          attachment?: string | null
+          category?: Database["public"]["Enums"]["expense_category"]
+          created_at?: string
+          date?: string
+          expense_name?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          age: number | null
+          created_at: string
+          email: string
+          gender: Database["public"]["Enums"]["gender_type"] | null
+          id: string
+          income: number | null
+          name: string
+          phone: string | null
+        }
+        Insert: {
+          age?: number | null
+          created_at?: string
+          email: string
+          gender?: Database["public"]["Enums"]["gender_type"] | null
+          id: string
+          income?: number | null
+          name: string
+          phone?: string | null
+        }
+        Update: {
+          age?: number | null
+          created_at?: string
+          email?: string
+          gender?: Database["public"]["Enums"]["gender_type"] | null
+          id?: string
+          income?: number | null
+          name?: string
+          phone?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +83,16 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      expense_category:
+        | "Food"
+        | "Travel"
+        | "Utilities"
+        | "Entertainment"
+        | "Healthcare"
+        | "Shopping"
+        | "Education"
+        | "Other"
+      gender_type: "male" | "female" | "other"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -133,6 +207,18 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      expense_category: [
+        "Food",
+        "Travel",
+        "Utilities",
+        "Entertainment",
+        "Healthcare",
+        "Shopping",
+        "Education",
+        "Other",
+      ],
+      gender_type: ["male", "female", "other"],
+    },
   },
 } as const
