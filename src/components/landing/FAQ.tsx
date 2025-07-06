@@ -45,9 +45,9 @@ const FAQ = () => {
 
   return (
     <section id="faq" className="py-20 bg-gradient-to-br from-purple-50 via-pink-50/50 to-violet-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
             Frequently Asked 
             <span className="block bg-gradient-to-r from-purple-600 via-pink-600 to-violet-600 bg-clip-text text-transparent">Questions</span>
@@ -68,7 +68,7 @@ const FAQ = () => {
               <AccordionTrigger className="text-left font-semibold hover:no-underline py-6 hover:text-purple-600">
                 {faq.question}
               </AccordionTrigger>
-              <AccordionContent className="text-gray-600 pb-6 leading-relaxed">
+              <AccordionContent className="text-gray-600 pb-6 leading-relaxed text-left">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>
@@ -76,7 +76,7 @@ const FAQ = () => {
         </Accordion>
 
         {/* Additional Help */}
-        <div className="mt-12 text-center">
+        <div className="mt-12">
           <p className="text-gray-600 mb-4">
             Still have questions? We're here to help!
           </p>
@@ -89,15 +89,29 @@ const FAQ = () => {
             </a>
             <span className="text-gray-400 hidden sm:inline">•</span>
             <a 
-              href="#" 
+              href="#contact" 
               className="text-purple-600 hover:text-purple-700 font-medium transition-colors"
+              onClick={(e) => {
+                e.preventDefault();
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
             >
               Schedule a Demo
             </a>
             <span className="text-gray-400 hidden sm:inline">•</span>
             <a 
-              href="#" 
+              href="#contact" 
               className="text-purple-600 hover:text-purple-700 font-medium transition-colors"
+              onClick={(e) => {
+                e.preventDefault();
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
             >
               Help Center
             </a>

@@ -1,24 +1,58 @@
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { User, Phone, DollarSign, Users, Calendar } from 'lucide-react';
+import { DollarSign } from 'lucide-react';
+import BackNavigationBar from '@/components/common/BackNavigationBar';
 
 const ProfileSetup = () => {
-  const [phone, setPhone] = useState('');
-  const [income, setIncome] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    age: '',
+    gender: '' as 'male' | 'female' | 'other' | '',
+    income: ''
+  });
   const [loading, setLoading] = useState(false);
-  
+
   const { user } = useAuth();
-  const { toast } = useToast();
   const navigate = useNavigate();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/auth', { replace: true });
+      return;
+    }
+
+    // Pre-fill with existing data if available
+    const fetchProfile = async () => {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (data) {
+        setFormData({
+          name: data.name || '',
+          phone: data.phone || '',
+          age: data.age?.toString() || '',
+          gender: data.gender || '',
+          income: data.income?.toString() || ''
+        });
+      }
+    };
+
+    fetchProfile();
+  }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,8 +64,11 @@ const ProfileSetup = () => {
       const { error } = await supabase
         .from('profiles')
         .update({
-          phone: phone || null,
-          income: income ? parseFloat(income) : null
+          name: formData.name,
+          phone: formData.phone || null,
+          age: formData.age ? parseInt(formData.age) : null,
+          gender: formData.gender || null,
+          income: formData.income ? parseFloat(formData.income) : null
         })
         .eq('id', user.id);
 
@@ -44,9 +81,9 @@ const ProfileSetup = () => {
       } else {
         toast({
           title: "Success",
-          description: "Profile completed successfully!",
+          description: "Profile setup completed successfully!",
         });
-        navigate('/dashboard');
+        navigate('/dashboard', { replace: true });
       }
     } catch (error) {
       toast({
@@ -59,71 +96,108 @@ const ProfileSetup = () => {
     }
   };
 
-  const handleSkip = () => {
-    navigate('/dashboard');
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-            Complete Your Profile
-          </CardTitle>
-          <CardDescription>
-            Add additional information to personalize your experience
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="phone" className="flex items-center gap-2">
-                <Phone className="h-4 w-4" />
-                Phone Number (Optional)
-              </Label>
-              <Input
-                id="phone"
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="Enter your phone number"
-              />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      <BackNavigationBar backTo="/auth" />
+      
+      <div className="pt-20 flex items-center justify-center px-4">
+        <Card className="w-full max-w-md">
+          <CardHeader className="text-center">
+            <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <DollarSign className="h-8 w-8 text-white" />
             </div>
+            <CardTitle className="text-2xl font-bold">Complete Your Profile</CardTitle>
+            <CardDescription className="text-center">
+              Help us personalize your FinTrack experience
+            </CardDescription>
+          </CardHeader>
 
-            <div className="space-y-2">
-              <Label htmlFor="income" className="flex items-center gap-2">
-                <DollarSign className="h-4 w-4" />
-                Monthly Income (Optional)
-              </Label>
-              <Input
-                id="income"
-                type="number"
-                value={income}
-                onChange={(e) => setIncome(e.target.value)}
-                placeholder="Enter your monthly income"
-              />
-            </div>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Full Name *</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => handleInputChange('name', e.target.value)}
+                  required
+                />
+              </div>
 
-            <div className="flex gap-3">
+              <div className="space-y-2">
+                <Label htmlFor="phone">Phone Number</Label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => handleInputChange('phone', e.target.value)}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="age">Age</Label>
+                  <Input
+                    id="age"
+                    type="number"
+                    value={formData.age}
+                    onChange={(e) => handleInputChange('age', e.target.value)}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Gender</Label>
+                  <Select value={formData.gender} onValueChange={(value: 'male' | 'female' | 'other') => handleInputChange('gender', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="male">Male</SelectItem>
+                      <SelectItem value="female">Female</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="income">Monthly Income</Label>
+                <Input
+                  id="income"
+                  type="number"
+                  step="0.01"
+                  value={formData.income}
+                  onChange={(e) => handleInputChange('income', e.target.value)}
+                  placeholder="Enter your monthly income"
+                />
+              </div>
+
               <Button
                 type="submit"
-                className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
                 disabled={loading}
               >
                 {loading ? 'Saving...' : 'Complete Setup'}
               </Button>
-              <Button
+            </form>
+
+            <div className="mt-4 text-center">
+              <button
                 type="button"
-                variant="outline"
-                onClick={handleSkip}
-                className="flex-1"
+                onClick={() => navigate('/dashboard')}
+                className="text-gray-600 hover:text-gray-700 text-sm"
               >
-                Skip for Now
-              </Button>
+                Skip for now
+              </button>
             </div>
-          </form>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

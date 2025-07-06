@@ -9,10 +9,16 @@ import {
   Shield, 
   Zap, 
   CheckCircle,
-  ArrowRight
+  ArrowRight,
+  Phone,
+  Mail,
+  MapPin
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const ValueProposition = () => {
+  const navigate = useNavigate();
+
   const benefits = [
     {
       icon: Eye,
@@ -40,11 +46,18 @@ const ValueProposition = () => {
     }
   ];
 
+  const scrollToContact = () => {
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="py-20 bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="mb-16">
           <Badge className="bg-white/10 text-white border-white/20 mb-4">
             Why Choose ExpenseTracker
           </Badge>
@@ -91,7 +104,7 @@ const ValueProposition = () => {
         </div>
 
         {/* Final CTA */}
-        <div className="text-center">
+        <div className="text-center mb-16">
           <h3 className="text-2xl font-bold mb-4">
             Ready to Take Control of Your Finances?
           </h3>
@@ -101,12 +114,21 @@ const ValueProposition = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-4 text-lg group shadow-lg">
+            <Button 
+              size="lg" 
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-4 text-lg group shadow-lg"
+              onClick={() => navigate('/auth')}
+            >
               Start Free Trial
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-4 text-lg">
-              Schedule Demo
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="border-white/30 text-white hover:bg-white/10 px-8 py-4 text-lg"
+              onClick={scrollToContact}
+            >
+              Contact Us
             </Button>
           </div>
 
@@ -122,6 +144,32 @@ const ValueProposition = () => {
             <div className="flex items-center space-x-2">
               <CheckCircle className="h-4 w-4" />
               <span>Cancel anytime</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Contact Section */}
+        <div id="contact" className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+          <h3 className="text-2xl font-bold mb-6">Get in Touch</h3>
+          <div className="grid md:grid-cols-3 gap-6 text-center">
+            <div className="flex flex-col items-center space-y-2">
+              <Mail className="h-8 w-8 text-purple-400" />
+              <p className="text-purple-100 font-medium">Email</p>
+              <a href="mailto:support@expensetracker.com" className="text-white hover:text-purple-300 transition-colors">
+                support@expensetracker.com
+              </a>
+            </div>
+            <div className="flex flex-col items-center space-y-2">
+              <Phone className="h-8 w-8 text-purple-400" />
+              <p className="text-purple-100 font-medium">Phone</p>
+              <a href="tel:+15551234567" className="text-white hover:text-purple-300 transition-colors">
+                +1 (555) 123-4567
+              </a>
+            </div>
+            <div className="flex flex-col items-center space-y-2">
+              <MapPin className="h-8 w-8 text-purple-400" />
+              <p className="text-purple-100 font-medium">Location</p>
+              <p className="text-white">San Francisco, CA</p>
             </div>
           </div>
         </div>

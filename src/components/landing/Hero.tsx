@@ -22,7 +22,7 @@ const Hero = () => {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
-          <div className="space-y-8 text-center lg:text-left">
+          <div className="space-y-8 text-center">
             <div className="space-y-4">
               <div className="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
                 <Brain className="h-4 w-4" />
@@ -34,14 +34,14 @@ const Hero = () => {
                 <span className="block bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">Starts Here</span>
               </h1>
               
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto lg:mx-0">
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
                 Automatically track, categorize, and analyze your expenses — all in one place. 
                 Take control of your finances with intelligent insights and effortless expense management.
               </p>
             </div>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
                 className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-4 text-lg group shadow-lg"
@@ -62,7 +62,7 @@ const Hero = () => {
             </div>
 
             {/* Trust indicators */}
-            <div className="flex items-center justify-center lg:justify-start space-x-6 text-sm text-gray-500">
+            <div className="flex items-center justify-center space-x-6 text-sm text-gray-500">
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full"></div>
                 <span>Bank-level security</span>
@@ -79,7 +79,7 @@ const Hero = () => {
           </div>
 
           {/* Visual/Demo */}
-          <div className="relative">
+          <div className="relative flex justify-center">
             <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden">
               {/* Mock app interface */}
               <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 p-6 text-white">
