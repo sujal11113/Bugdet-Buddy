@@ -8,89 +8,151 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Digital Wellness Green Theme - Light Mode */
+    --background: 28 18% 94%;           /* Soft cream #F2F0EB */
+    --foreground: 160 6% 25%;           /* Dark gray-green for text */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;                  /* Pure white for cards */
+    --card-foreground: 160 6% 25%;     /* Dark text on cards */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;               /* White popovers */
+    --popover-foreground: 160 6% 25%;  /* Dark text in popovers */
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Sage Green */
+    --primary: 130 12% 72%;             /* Sage green #B5CBB7 */
+    --primary-foreground: 0 0% 100%;    /* White text on primary */
+    --primary-glow: 130 20% 80%;        /* Lighter sage for glows */
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Soft neutrals */
+    --secondary: 130 8% 85%;            /* Light sage gray */
+    --secondary-foreground: 160 6% 25%; /* Dark text on secondary */
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted backgrounds */
+    --muted: 28 12% 90%;                /* Very light cream */
+    --muted-foreground: 160 4% 45%;     /* Medium gray text */
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent - Teal */
+    --accent: 179 50% 35%;              /* Teal #2E8B8A */
+    --accent-foreground: 0 0% 100%;     /* White text on accent */
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Alert/Action - Coral */
+    --coral: 9 100% 69%;                /* Coral #FF6F61 */
+    --coral-foreground: 0 0% 100%;      /* White text on coral */
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Status colors */
+    --success: 130 35% 45%;             /* Forest green for success */
+    --warning: 35 95% 65%;              /* Warm amber for warnings */
+    --destructive: 9 100% 69%;          /* Coral for destructive actions */
+    --destructive-foreground: 0 0% 100%;
+
+    /* UI Elements */
+    --border: 130 8% 80%;               /* Light sage border */
+    --input: 130 8% 85%;                /* Light sage input background */
+    --ring: 179 50% 35%;                /* Teal focus ring */
+
+    /* Chart colors - Nature inspired */
+    --chart-1: 130 35% 45%;             /* Forest green */
+    --chart-2: 179 50% 35%;             /* Teal */
+    --chart-3: 9 100% 69%;              /* Coral */
+    --chart-4: 50 85% 55%;              /* Golden yellow */
+    --chart-5: 280 25% 65%;             /* Muted purple */
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(130 12% 72%), hsl(179 50% 35%));
+    --gradient-sunset: linear-gradient(135deg, hsl(35 95% 65%), hsl(9 100% 69%));
+    --gradient-subtle: linear-gradient(180deg, hsl(28 18% 96%), hsl(28 18% 94%));
+
+    /* Shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(130 12% 72% / 0.3);
+    --shadow-glow: 0 0 40px hsl(130 20% 80% / 0.4);
+    --shadow-card: 0 4px 12px -2px hsl(130 8% 60% / 0.15);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar - Digital Wellness Theme */
+    --sidebar-background: 28 18% 96%;   /* Very light cream */
+    --sidebar-foreground: 160 6% 25%;   /* Dark text */
+    --sidebar-primary: 130 12% 72%;     /* Sage green */
+    --sidebar-primary-foreground: 0 0% 100%; /* White text */
+    --sidebar-accent: 130 8% 88%;       /* Light sage accent */
+    --sidebar-accent-foreground: 160 6% 25%; /* Dark text */
+    --sidebar-border: 130 8% 85%;       /* Light sage border */
+    --sidebar-ring: 179 50% 35%;        /* Teal ring */
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Digital Wellness Green Theme - Dark Mode */
+    --background: 160 15% 8%;           /* Dark forest green */
+    --foreground: 28 18% 94%;           /* Light cream text */
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 160 12% 12%;                /* Dark green cards */
+    --card-foreground: 28 18% 94%;     /* Light text on cards */
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 160 12% 12%;             /* Dark green popovers */
+    --popover-foreground: 28 18% 94%;  /* Light text in popovers */
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    /* Primary - Bright sage for dark mode */
+    --primary: 130 20% 80%;             /* Brighter sage green */
+    --primary-foreground: 160 15% 8%;   /* Dark text on primary */
+    --primary-glow: 130 25% 85%;        /* Even brighter sage for glows */
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    /* Secondary - Dark sage */
+    --secondary: 160 12% 18%;           /* Dark sage gray */
+    --secondary-foreground: 28 18% 94%; /* Light text on secondary */
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    /* Muted backgrounds */
+    --muted: 160 10% 15%;               /* Very dark muted */
+    --muted-foreground: 130 8% 70%;     /* Medium light text */
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    /* Accent - Bright teal */
+    --accent: 179 60% 55%;              /* Brighter teal for dark mode */
+    --accent-foreground: 160 15% 8%;    /* Dark text on accent */
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    /* Alert/Action - Bright coral */
+    --coral: 9 100% 75%;                /* Brighter coral */
+    --coral-foreground: 160 15% 8%;     /* Dark text on coral */
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Status colors for dark mode */
+    --success: 130 45% 65%;             /* Brighter forest green */
+    --warning: 35 95% 75%;              /* Brighter amber */
+    --destructive: 9 100% 75%;          /* Brighter coral */
+    --destructive-foreground: 160 15% 8%;
+
+    /* UI Elements */
+    --border: 160 10% 20%;              /* Dark border */
+    --input: 160 12% 15%;               /* Dark input background */
+    --ring: 179 60% 55%;                /* Bright teal focus ring */
+
+    /* Chart colors - Bright versions for dark mode */
+    --chart-1: 130 45% 65%;             /* Bright forest green */
+    --chart-2: 179 60% 55%;             /* Bright teal */
+    --chart-3: 9 100% 75%;              /* Bright coral */
+    --chart-4: 50 90% 70%;              /* Bright golden yellow */
+    --chart-5: 280 35% 75%;             /* Bright purple */
+
+    /* Gradients for dark mode */
+    --gradient-primary: linear-gradient(135deg, hsl(130 20% 80%), hsl(179 60% 55%));
+    --gradient-sunset: linear-gradient(135deg, hsl(35 95% 75%), hsl(9 100% 75%));
+    --gradient-subtle: linear-gradient(180deg, hsl(160 12% 12%), hsl(160 15% 8%));
+
+    /* Shadows for dark mode */
+    --shadow-elegant: 0 10px 30px -10px hsl(0 0% 0% / 0.5);
+    --shadow-glow: 0 0 40px hsl(130 25% 85% / 0.3);
+    --shadow-card: 0 4px 12px -2px hsl(0 0% 0% / 0.3);
+
+    /* Sidebar - Dark Digital Wellness Theme */
+    --sidebar-background: 160 12% 10%;  /* Dark green sidebar */
+    --sidebar-foreground: 28 18% 94%;   /* Light text */
+    --sidebar-primary: 130 20% 80%;     /* Bright sage */
+    --sidebar-primary-foreground: 160 15% 8%; /* Dark text */
+    --sidebar-accent: 160 10% 20%;      /* Dark accent */
+    --sidebar-accent-foreground: 28 18% 94%; /* Light text */
+    --sidebar-border: 160 10% 18%;      /* Dark border */
+    --sidebar-ring: 179 60% 55%;        /* Bright teal ring */
   }
 }
 
@@ -100,6 +162,183 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-inter;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-playfair;
+  }
+}
+
+@layer components {
+  /* Gradient backgrounds */
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .bg-gradient-sunset {
+    background: var(--gradient-sunset);
+  }
+
+  .bg-gradient-subtle {
+    background: var(--gradient-subtle);
+  }
+
+  /* Elegant shadows */
+  .shadow-elegant {
+    box-shadow: var(--shadow-elegant);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Coral color utilities */
+  .bg-coral {
+    background-color: hsl(var(--coral));
+    color: hsl(var(--coral-foreground));
+  }
+
+  .text-coral {
+    color: hsl(var(--coral));
+  }
+
+  .border-coral {
+    border-color: hsl(var(--coral));
+  }
+
+  /* Interactive elements */
+  .hover-lift {
+    transition: var(--transition-smooth);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-elegant);
+  }
+
+  .hover-scale {
+    transition: var(--transition-smooth);
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.02);
+  }
+
+  .hover-glow {
+    transition: var(--transition-smooth);
+  }
+
+  .hover-glow:hover {
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Animated underlines */
+  .underline-animate {
+    position: relative;
+  }
+
+  .underline-animate::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background: hsl(var(--accent));
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+  }
+
+  .underline-animate:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+
+  /* Progress indicators */
+  .progress-circular {
+    transition: var(--transition-smooth);
+  }
+
+  .progress-circular.success {
+    stroke: hsl(var(--success));
+  }
+
+  .progress-circular.warning {
+    stroke: hsl(var(--warning));
+  }
+
+  .progress-circular.danger {
+    stroke: hsl(var(--coral));
+  }
+
+  /* Data visualization enhancements */
+  .chart-container {
+    background: var(--gradient-subtle);
+    border-radius: calc(var(--radius) * 2);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Custom scrollbars */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--accent));
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary));
+  }
+
+  /* Floating action button */
+  .fab {
+    @apply fixed bottom-6 right-6 z-50 rounded-full p-4 shadow-elegant hover-lift;
+    background: var(--gradient-primary);
+    color: hsl(var(--primary-foreground));
+  }
+
+  /* Card enhancements */
+  .wellness-card {
+    @apply bg-card border border-border rounded-lg p-6 shadow-card hover-lift;
+    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--muted)) 100%);
+  }
+
+  /* Typography enhancements */
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Notification badges */
+  .notification-badge {
+    @apply absolute -top-2 -right-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-coral-foreground bg-coral rounded-full;
+    animation: pulse 2s infinite;
+  }
+
+  /* Form enhancements */
+  .form-field-enhanced {
+    @apply relative overflow-hidden rounded-lg border border-border bg-input px-3 py-2 text-sm ring-offset-background;
+    transition: var(--transition-smooth);
+  }
+
+  .form-field-enhanced:focus-within {
+    @apply ring-2 ring-ring ring-offset-2;
+    box-shadow: var(--shadow-glow);
   }
 }
