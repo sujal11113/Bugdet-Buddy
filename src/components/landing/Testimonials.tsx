@@ -3,21 +3,27 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Star } from 'lucide-react';
+import sarahChenImg from '@/assets/testimonials/sarah-chen.jpg';
+import michaelRodriguezImg from '@/assets/testimonials/michael-rodriguez.jpg';
+import emilyJohnsonImg from '@/assets/testimonials/emily-johnson.jpg';
+import davidParkImg from '@/assets/testimonials/david-park.jpg';
+import lisaThompsonImg from '@/assets/testimonials/lisa-thompson.jpg';
+import jamesWilsonImg from '@/assets/testimonials/james-wilson.jpg';
 
 const Testimonials = () => {
   const testimonials = [
     {
       name: 'Sarah Chen',
       role: 'Marketing Manager',
-      avatar: '/placeholder.svg',
+      avatar: sarahChenImg,
       initials: 'SC',
       rating: 5,
-      text: "ExpenseTracker's AI categorization is a game-changer. I used to spend hours organizing receipts, now everything happens automatically. I've saved over $400 this month just by being more aware of my spending patterns!"
+      text: "Budget-Buddy's AI categorization is a game-changer. I used to spend hours organizing receipts, now everything happens automatically. I've saved over $400 this month just by being more aware of my spending patterns!"
     },
     {
       name: 'Michael Rodriguez',
       role: 'Small Business Owner',
-      avatar: '/placeholder.svg',
+      avatar: michaelRodriguezImg,
       initials: 'MR',
       rating: 5,
       text: "The screenshot feature is incredible! I can just snap a photo of any receipt and it extracts all the details perfectly. As a busy entrepreneur, this saves me so much time on expense reporting."
@@ -25,7 +31,7 @@ const Testimonials = () => {
     {
       name: 'Emily Johnson',
       role: 'Graduate Student',
-      avatar: '/placeholder.svg',
+      avatar: emilyJohnsonImg,
       initials: 'EJ',
       rating: 5,
       text: "Finally, a budgeting app that actually works! The insights help me understand my spending habits, and the weekly reports keep me accountable. I've never been this good at managing money."
@@ -33,7 +39,7 @@ const Testimonials = () => {
     {
       name: 'David Park',
       role: 'Software Engineer',
-      avatar: '/placeholder.svg',
+      avatar: davidParkImg,
       initials: 'DP',
       rating: 5,
       text: "The analytics dashboard is beautiful and informative. I love seeing the week-over-week comparisons - it's like having a personal financial advisor. The AI suggestions have helped me optimize my spending significantly."
@@ -41,7 +47,7 @@ const Testimonials = () => {
     {
       name: 'Lisa Thompson',
       role: 'Freelance Designer',
-      avatar: '/placeholder.svg',
+      avatar: lisaThompsonImg,
       initials: 'LT',
       rating: 5,
       text: "As someone who manages both personal and business expenses, this app is perfect. The categorization is smart, and I can easily separate my different expense types. The time I save is worth its weight in gold!"
@@ -49,10 +55,10 @@ const Testimonials = () => {
     {
       name: 'James Wilson',
       role: 'Family Finance Manager',
-      avatar: '/placeholder.svg',
+      avatar: jamesWilsonImg,
       initials: 'JW',
       rating: 5,
-      text: "Managing expenses for a family of four was overwhelming until I found ExpenseTracker. The budget tracking and spending alerts help us stay on track with our financial goals. Highly recommended!"
+      text: "Managing expenses for a family of four was overwhelming until I found Budget-Buddy. The budget tracking and spending alerts help us stay on track with our financial goals. Highly recommended!"
     }
   ];
 
@@ -66,7 +72,7 @@ const Testimonials = () => {
             <span className="block bg-gradient-to-r from-purple-600 via-pink-600 to-violet-600 bg-clip-text text-transparent">of Users</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Don't just take our word for it. See what our users say about transforming their financial management with ExpenseTracker.
+            Don't just take our word for it. See what our users say about transforming their financial management with Budget-Buddy.
           </p>
         </div>
 
@@ -107,18 +113,18 @@ const Testimonials = () => {
 
         {/* Trust Indicators */}
         <div className="mt-16 text-center">
-          <div className="flex items-center justify-center space-x-8 text-gray-400">
+          <div className="flex items-center justify-center space-x-8 text-black">
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full"></div>
-              <span className="text-sm">4.9/5 Average Rating</span>
+              <span className="text-sm font-semibold">4.9/5 Average Rating</span>
             </div>
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full"></div>
-              <span className="text-sm">50,000+ Active Users</span>
+              <span className="text-sm font-semibold">50,000+ Active Users</span>
             </div>
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-gradient-to-r from-violet-400 to-purple-500 rounded-full"></div>
-              <span className="text-sm">99.9% Uptime</span>
+              <span className="text-sm font-semibold">99.9% Uptime</span>
             </div>
           </div>
         </div>

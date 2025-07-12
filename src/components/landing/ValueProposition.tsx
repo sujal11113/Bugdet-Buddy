@@ -78,7 +78,7 @@ const ValueProposition = () => {
                 <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${benefit.color} flex items-center justify-center`}>
                   <benefit.icon className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-lg font-semibold mb-3">{benefit.title}</h3>
+                <h3 className="text-lg font-semibold mb-3 text-white">{benefit.title}</h3>
                 <p className="text-purple-100 text-sm leading-relaxed">{benefit.description}</p>
               </CardContent>
             </Card>
