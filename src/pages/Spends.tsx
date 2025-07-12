@@ -173,19 +173,19 @@ const Spends = () => {
         </Card>
 
         {/* Controls */}
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-center">
-          <div className="relative">
+        <div className="flex flex-col lg:flex-row gap-4 items-center justify-center flex-wrap">
+          <div className="relative w-full sm:w-64">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <Input
               placeholder="Search expenses..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 w-64"
+              className="pl-10 w-full"
             />
           </div>
 
           <Select value={filterCategory} onValueChange={setFilterCategory}>
-            <SelectTrigger className="w-48">
+            <SelectTrigger className="w-full sm:w-48">
               <Filter className="h-4 w-4 mr-2" />
               <SelectValue placeholder="Filter by category" />
             </SelectTrigger>
@@ -200,7 +200,7 @@ const Spends = () => {
           </Select>
 
           <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-48">
+            <SelectTrigger className="w-full sm:w-48">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
@@ -213,7 +213,7 @@ const Spends = () => {
 
           <Dialog open={showAddExpense} onOpenChange={setShowAddExpense}>
             <DialogTrigger asChild>
-              <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+              <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 w-full sm:w-auto">
                 <Plus className="h-4 w-4 mr-2" />
                 Add Expense
               </Button>
@@ -229,9 +229,9 @@ const Spends = () => {
           <CardHeader className="text-center">
             <CardTitle>Your Expenses</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-0">
             {filteredExpenses.length === 0 ? (
-              <div className="text-center py-8">
+              <div className="text-center py-8 px-6">
                 <p className="text-gray-500 mb-4">No expenses found</p>
                 <Button 
                   onClick={() => setShowAddExpense(true)}
@@ -242,62 +242,64 @@ const Spends = () => {
                 </Button>
               </div>
             ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="text-center">Name</TableHead>
-                    <TableHead className="text-center">Amount</TableHead>
-                    <TableHead className="text-center">Category</TableHead>
-                    <TableHead className="text-center">Date</TableHead>
-                    <TableHead className="text-center">Receipt</TableHead>
-                    <TableHead className="text-center">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredExpenses.map((expense) => (
-                    <TableRow key={expense.id}>
-                      <TableCell className="text-center font-medium">{expense.expense_name}</TableCell>
-                      <TableCell className="text-center">${Number(expense.amount).toFixed(2)}</TableCell>
-                      <TableCell className="text-center">
-                        <Badge variant="secondary">{expense.category}</Badge>
-                      </TableCell>
-                      <TableCell className="text-center">{new Date(expense.date).toLocaleDateString()}</TableCell>
-                      <TableCell className="text-center">
-                        {expense.attachment ? (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => setViewingReceipt(expense.attachment)}
-                          >
-                            <Receipt className="h-4 w-4" />
-                          </Button>
-                        ) : (
-                          <span className="text-gray-400">No receipt</span>
-                        )}
-                      </TableCell>
-                      <TableCell className="text-center">
-                        <div className="flex justify-center space-x-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => setEditingExpense(expense)}
-                          >
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => deleteExpense(expense.id)}
-                            className="text-red-600 hover:text-red-700"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="text-center min-w-[120px]">Name</TableHead>
+                      <TableHead className="text-center min-w-[100px]">Amount</TableHead>
+                      <TableHead className="text-center min-w-[120px]">Category</TableHead>
+                      <TableHead className="text-center min-w-[100px]">Date</TableHead>
+                      <TableHead className="text-center min-w-[80px]">Receipt</TableHead>
+                      <TableHead className="text-center min-w-[100px]">Actions</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredExpenses.map((expense) => (
+                      <TableRow key={expense.id}>
+                        <TableCell className="text-center font-medium">{expense.expense_name}</TableCell>
+                        <TableCell className="text-center">${Number(expense.amount).toFixed(2)}</TableCell>
+                        <TableCell className="text-center">
+                          <Badge variant="secondary">{expense.category}</Badge>
+                        </TableCell>
+                        <TableCell className="text-center">{new Date(expense.date).toLocaleDateString()}</TableCell>
+                        <TableCell className="text-center">
+                          {expense.attachment ? (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => setViewingReceipt(expense.attachment)}
+                            >
+                              <Receipt className="h-4 w-4" />
+                            </Button>
+                          ) : (
+                            <span className="text-gray-400">No receipt</span>
+                          )}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          <div className="flex justify-center space-x-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => setEditingExpense(expense)}
+                            >
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => deleteExpense(expense.id)}
+                              className="text-red-600 hover:text-red-700"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             )}
           </CardContent>
         </Card>
