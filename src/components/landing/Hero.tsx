@@ -103,7 +103,7 @@ const Hero = () => {
                     {/* App header */}
                     <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 p-6 text-white">
                       <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-semibold">FinTrack AI</h3>
+                        <h3 className="text-lg font-semibold">Budget-Buddy AI</h3>
                         <div className="flex space-x-2">
                           <Camera className="h-5 w-5" />
                           <Brain className="h-5 w-5" />

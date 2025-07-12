@@ -9,7 +9,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { DollarSign } from 'lucide-react';
+import { StickyNote } from 'lucide-react';
 import BackNavigationBar from '@/components/common/BackNavigationBar';
 
 const ProfileSetup = () => {
@@ -108,11 +108,11 @@ const ProfileSetup = () => {
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <DollarSign className="h-8 w-8 text-white" />
+              <StickyNote className="h-8 w-8 text-white" />
             </div>
             <CardTitle className="text-2xl font-bold">Complete Your Profile</CardTitle>
             <CardDescription className="text-center">
-              Help us personalize your FinTrack experience
+              Help us personalize your Budget-Buddy experience
             </CardDescription>
           </CardHeader>
 

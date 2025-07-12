@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { useAuth } from '@/contexts/AuthContext';
-import { DollarSign, Plus, User, LogOut } from 'lucide-react';
+import { StickyNote, Plus, User, LogOut } from 'lucide-react';
 import AddExpenseForm from './AddExpenseForm';
 import UserProfile from './UserProfile';
 import ReceiptUpload from './ReceiptUpload';
@@ -18,10 +18,10 @@ const DashboardNavbar = () => {
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-            <DollarSign className="h-5 w-5 text-white" />
+            <StickyNote className="h-5 w-5 text-white" />
           </div>
           <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-            FinTrack
+            Budget-Buddy
           </span>
         </div>
 

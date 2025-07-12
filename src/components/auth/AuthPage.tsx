@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
-import { DollarSign } from 'lucide-react';
+import { StickyNote } from 'lucide-react';
 import BackNavigationBar from '@/components/common/BackNavigationBar';
 
 const AuthPage = () => {
@@ -107,15 +107,15 @@ const AuthPage = () => {
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <DollarSign className="h-8 w-8 text-white" />
+              <StickyNote className="h-8 w-8 text-white" />
             </div>
             <CardTitle className="text-2xl font-bold">
               {isLogin ? 'Welcome Back' : 'Create Account'}
             </CardTitle>
             <CardDescription className="text-center">
               {isLogin 
-                ? 'Sign in to your FinTrack account' 
-                : 'Join FinTrack to start tracking your expenses'
+                ? 'Sign in to your account' 
+                : 'Join us to start tracking your expenses'
               }
             </CardDescription>
           </CardHeader>

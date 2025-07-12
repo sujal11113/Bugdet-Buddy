@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, DollarSign } from 'lucide-react';
+import { ArrowLeft, StickyNote } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface BackNavigationBarProps {
@@ -10,7 +10,7 @@ interface BackNavigationBarProps {
 }
 
 const BackNavigationBar: React.FC<BackNavigationBarProps> = ({ 
-  title = "FinTrack", 
+  title = "Budget-Buddy", 
   backTo = "/" 
 }) => {
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ const BackNavigationBar: React.FC<BackNavigationBarProps> = ({
             </Button>
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                <DollarSign className="h-5 w-5 text-white" />
+                <StickyNote className="h-5 w-5 text-white" />
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">{title}</span>
             </div>

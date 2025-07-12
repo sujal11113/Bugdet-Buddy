@@ -173,8 +173,8 @@ const Spends = () => {
         </Card>
 
         {/* Controls */}
-        <div className="flex flex-col lg:flex-row gap-4 items-center justify-center flex-wrap">
-          <div className="relative w-full sm:w-64">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+          <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <Input
               placeholder="Search expenses..."
@@ -185,7 +185,7 @@ const Spends = () => {
           </div>
 
           <Select value={filterCategory} onValueChange={setFilterCategory}>
-            <SelectTrigger className="w-full sm:w-48">
+            <SelectTrigger>
               <Filter className="h-4 w-4 mr-2" />
               <SelectValue placeholder="Filter by category" />
             </SelectTrigger>
@@ -200,7 +200,7 @@ const Spends = () => {
           </Select>
 
           <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-full sm:w-48">
+            <SelectTrigger>
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
@@ -213,7 +213,7 @@ const Spends = () => {
 
           <Dialog open={showAddExpense} onOpenChange={setShowAddExpense}>
             <DialogTrigger asChild>
-              <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 w-full sm:w-auto">
+              <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 w-full">
                 <Plus className="h-4 w-4 mr-2" />
                 Add Expense
               </Button>
@@ -242,46 +242,58 @@ const Spends = () => {
                 </Button>
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <Table>
+              <div className="w-full overflow-x-auto">
+                <Table className="min-w-[800px]">
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="text-center min-w-[120px]">Name</TableHead>
-                      <TableHead className="text-center min-w-[100px]">Amount</TableHead>
-                      <TableHead className="text-center min-w-[120px]">Category</TableHead>
-                      <TableHead className="text-center min-w-[100px]">Date</TableHead>
-                      <TableHead className="text-center min-w-[80px]">Receipt</TableHead>
-                      <TableHead className="text-center min-w-[100px]">Actions</TableHead>
+                      <TableHead className="text-center w-[20%]">Name</TableHead>
+                      <TableHead className="text-center w-[15%]">Amount</TableHead>
+                      <TableHead className="text-center w-[15%]">Category</TableHead>
+                      <TableHead className="text-center w-[15%]">Date</TableHead>
+                      <TableHead className="text-center w-[15%]">Receipt</TableHead>
+                      <TableHead className="text-center w-[20%]">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filteredExpenses.map((expense) => (
                       <TableRow key={expense.id}>
-                        <TableCell className="text-center font-medium">{expense.expense_name}</TableCell>
-                        <TableCell className="text-center">${Number(expense.amount).toFixed(2)}</TableCell>
-                        <TableCell className="text-center">
-                          <Badge variant="secondary">{expense.category}</Badge>
+                        <TableCell className="text-center font-medium p-2 break-words">
+                          <div className="max-w-[150px] truncate" title={expense.expense_name}>
+                            {expense.expense_name}
+                          </div>
                         </TableCell>
-                        <TableCell className="text-center">{new Date(expense.date).toLocaleDateString()}</TableCell>
-                        <TableCell className="text-center">
+                        <TableCell className="text-center p-2 font-medium">
+                          ${Number(expense.amount).toFixed(2)}
+                        </TableCell>
+                        <TableCell className="text-center p-2">
+                          <Badge variant="secondary" className="text-xs">
+                            {expense.category}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-center p-2 text-sm">
+                          {new Date(expense.date).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell className="text-center p-2">
                           {expense.attachment ? (
                             <Button
                               variant="ghost"
                               size="sm"
                               onClick={() => setViewingReceipt(expense.attachment)}
+                              className="h-8 w-8 p-0"
                             >
                               <Receipt className="h-4 w-4" />
                             </Button>
                           ) : (
-                            <span className="text-gray-400">No receipt</span>
+                            <span className="text-gray-400 text-xs">None</span>
                           )}
                         </TableCell>
-                        <TableCell className="text-center">
-                          <div className="flex justify-center space-x-2">
+                        <TableCell className="text-center p-2">
+                          <div className="flex justify-center space-x-1">
                             <Button
                               variant="ghost"
                               size="sm"
                               onClick={() => setEditingExpense(expense)}
+                              className="h-8 w-8 p-0"
                             >
                               <Edit className="h-4 w-4" />
                             </Button>
@@ -289,7 +301,7 @@ const Spends = () => {
                               variant="ghost"
                               size="sm"
                               onClick={() => deleteExpense(expense.id)}
-                              className="text-red-600 hover:text-red-700"
+                              className="text-red-600 hover:text-red-700 h-8 w-8 p-0"
                             >
                               <Trash2 className="h-4 w-4" />
                             </Button>
