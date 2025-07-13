@@ -12,6 +12,8 @@ import DashboardLayout from "./components/dashboard/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
 import Spends from "./pages/Spends";
 import Analyse from "./pages/Analyse";
+import ExpenseSummary from "./pages/ExpenseSummary";
+import ExpenseHistory from "./pages/ExpenseHistory";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +32,8 @@ const App = () => (
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route index element={<Dashboard />} />
               <Route path="spends" element={<Spends />} />
+              <Route path="summary" element={<ExpenseSummary />} />
+              <Route path="history" element={<ExpenseHistory />} />
               <Route path="analyse" element={<Analyse />} />
             </Route>
             <Route path="*" element={<NotFound />} />

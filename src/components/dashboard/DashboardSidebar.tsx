@@ -1,13 +1,15 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, CreditCard, BarChart3 } from 'lucide-react';
+import { Home, CreditCard, BarChart3, PieChart, History } from 'lucide-react';
 
 const DashboardSidebar = () => {
   const navItems = [
-    { to: '/dashboard', icon: Home, label: 'Home', exact: true },
-    { to: '/dashboard/spends', icon: CreditCard, label: 'Spends' },
-    { to: '/dashboard/analyse', icon: BarChart3, label: 'Analyse' },
+    { to: '/dashboard', icon: Home, label: 'Dashboard', exact: true },
+    { to: '/dashboard/spends', icon: CreditCard, label: 'Add Expense' },
+    { to: '/dashboard/summary', icon: PieChart, label: 'Summary' },
+    { to: '/dashboard/history', icon: History, label: 'History' },
+    { to: '/dashboard/analyse', icon: BarChart3, label: 'Analytics' },
   ];
 
   return (
