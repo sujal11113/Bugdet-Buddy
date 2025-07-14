@@ -78,23 +78,22 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
   return (
     <>
       <DialogHeader>
-        <DialogTitle className="text-center">Add New Expense</DialogTitle>
+        <DialogTitle>Add New Expense</DialogTitle>
       </DialogHeader>
-      <form onSubmit={handleSubmit} className="space-y-4 text-center">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="expenseName" className="block text-center">Expense Name</Label>
+          <Label htmlFor="expenseName">Expense Name</Label>
           <Input
             id="expenseName"
             value={expenseName}
             onChange={(e) => setExpenseName(e.target.value)}
             placeholder="e.g., Coffee at Starbucks"
             required
-            className="text-center"
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="amount" className="block text-center">Amount</Label>
+          <Label htmlFor="amount">Amount</Label>
           <Input
             id="amount"
             type="number"
@@ -103,19 +102,18 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
             onChange={(e) => setAmount(e.target.value)}
             placeholder="0.00"
             required
-            className="text-center"
           />
         </div>
 
         <div className="space-y-2">
-          <Label className="block text-center">Category</Label>
+          <Label>Category</Label>
           <Select value={category} onValueChange={(value: ExpenseCategory) => setCategory(value)} required>
-            <SelectTrigger className="text-center">
+            <SelectTrigger>
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
               {categories.map((cat) => (
-                <SelectItem key={cat} value={cat} className="text-center">
+                <SelectItem key={cat} value={cat}>
                   {cat}
                 </SelectItem>
               ))}
@@ -124,24 +122,21 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ onClose }) => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="date" className="block text-center">Date</Label>
+          <Label htmlFor="date">Date</Label>
           <Input
             id="date"
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
             required
-            className="text-center"
           />
         </div>
 
         <div className="space-y-2">
-          <Label className="block text-center">Receipt (Optional)</Label>
-          <div className="flex justify-center">
-            <ReceiptUpload onUploadComplete={(url) => setAttachment(url)} />
-          </div>
+          <Label>Receipt (Optional)</Label>
+          <ReceiptUpload onUploadComplete={(url) => setAttachment(url)} />
           {attachment && (
-            <p className="text-sm text-green-600 text-center">Receipt uploaded!</p>
+            <p className="text-sm text-green-600">Receipt uploaded!</p>
           )}
         </div>
 
